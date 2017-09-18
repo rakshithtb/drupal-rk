@@ -45,7 +45,7 @@ function _custom_form_submit_handler($form, FormStateInterface $form_state){
   
   if(isset($siteapiKey)) {
     //Append the Site Api Key for the site configuration
-    \Drupal::configFactory()->getEditable('system.site')->set('siteapikey', $siteapiKey)->save();
+    //\Drupal::configFactory()->getEditable('system.site')->set('siteapikey', $siteapiKey)->save();
     \Drupal::configFactory()->getEditable('axelerant_test.site')->set('siteapikey', $siteapiKey)->save();
     drupal_set_message(t('The SiteapiKey has been saved with the value %SiteapiKey.', array('%SiteapiKey' => $siteapiKey)));
   }
