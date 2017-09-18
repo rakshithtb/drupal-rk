@@ -1,0 +1,8 @@
+axelerant_test.pagejson:
+  path: '/page_json/{siteapikey}/{nodeid}'
+  defaults:
+    _controller: '\Drupal\axelerant_test\Controller\AxelerantController::getJson'
+    _title: 'Page Json'
+  requirements:
+    _role: 'administrator'  
+    _custom_access:  '\Drupal\axelerant_test\Controller\PermissionController::custom_access'

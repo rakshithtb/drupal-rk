@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * This is the module to Alter Site information Form.
+ * Provide JSON representation of a Node based on SiteApiKey Existence
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ * Add Site Api Key field to the form
+ * Save the entries on Variable table 
+ */
+function axelerant_test_form_system_site_information_settings_alter(&$form, FormStateInterface $form_state) {
+  //Get the Site Api Key if already Set
+  $siteApiKey = \Drupal::config('axelerant_test.site')->get('siteapikey'); 
+  
+  if (!$siteApiKey) {
+    //If not set - Populate the Default Value
+    $siteApiKey = 'No API Key yet';
+  }
+  
+  $form['axelerent_settings'] = array (
+    '#type' => 'fieldset',
+    '#title' => t('Axelerant Specific Seetings'),
+  );
+  $form['axelerent_settings']['siteapikey']=array(
+    '#type' => 'textfield',
+    '#title'=> t('Site API Key'),
+    '#description' => t('Site API Key for Axelerant'),
+    '#default_value' => $siteApiKey,
+  );
+  $form['actions']['submit']['#value'] = 'Update Configuration';
+  $form['#submit'][] = '_custom_form_submit_handler';
+}
+
+/*
+ * Cutsom Form submit handler
+ */
+function _custom_form_submit_handler($form, FormStateInterface $form_state){
+  //Get the submitted value
+  $siteapiKey = $form_state->getValue('siteapikey');
+  
+  if(isset($siteapiKey)) {
+    //Append the Site Api Key for the site configuration
+    \Drupal::configFactory()->getEditable('system.site')->set('siteapikey', $siteapiKey)->save();
+    \Drupal::configFactory()->getEditable('axelerant_test.site')->set('siteapikey', $siteapiKey)->save();
+    drupal_set_message(t('The SiteapiKey has been saved with the value %SiteapiKey.', array('%SiteapiKey' => $siteapiKey)));
+  }
+}
+

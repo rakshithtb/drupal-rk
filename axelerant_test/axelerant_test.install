@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Upon uninstall delet the site api key variable.
+ */
+
+/*
+ * Implements hook_uninstall
+ * Delete the siteapikey variable
+ */
+function axelerant_test_uninstall() {
+  \Drupal::configFactory()->getEditable('axelerant_test.site.siteapikey')->delete();
+}

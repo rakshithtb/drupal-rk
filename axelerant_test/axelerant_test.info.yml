@@ -1,0 +1,7 @@
+name: Axelerant Test
+core: 8.x
+description: The Module Provides the SiteApiKey based access to get the JSON representation of a node 
+package: Axelerant
+type: module
+dependencies:
+  - serialization
